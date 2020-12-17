@@ -75,9 +75,16 @@ def init():
 def get_predicates(sparqls, url):
     predicate_query = u"""
         SELECT DISTINCT ?p WHERE {{
-            {{ <{url}> ?p [] . }}
-            UNION
-            {{ [] ?p <{url}> . }}
+            {{ GRAPH ?g {{
+            	{{ <{url}> ?p [] . }}
+            	UNION
+            	{{ [] ?p <{url}> . }}
+            }}
+            }} UNION {{
+            	{{ <{url}> ?p [] . }}
+            	UNION
+            	{{ [] ?p <{url}> . }}
+	    }}
         }}
     """.format(url=url)
 
